@@ -4,24 +4,24 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_we
 d3.json(queryUrl).then(function (data) {
   createFeatures(data.features);
 });
-function getradius(feature){
+function getRadius(feature){
   return (feature.properties.mag) * 5
 }
 
-function getcolor(feature){
+function getColor(feature){
   let depth = feature.geometry.coordinates[2];
-  let color = "brown";
+  let color = "yellow";
 
   if ( depth > 90) {
-    color = "red"
+    color = "brown"
   }
   
   else if (depth >60){
-    color ="orange"
+    color ="red"
   }
 
   else if (depth > 30){
-    color = "yellow"
+    color = "orange"
   }
 
   return(color)
@@ -35,9 +35,11 @@ function createFeatures(earthquakeData) {
   var earthquakes = L.geoJSON(earthquakeData, {
    pointToLayer : function(feature,latlng){
      return new L.CircleMarker(latlng,{
-       radius : getradius(feature),
-       color : 	getcolor(feature),
-      fillOpacity: 1,
+       radius : getRadius(feature),
+       color :  getColor(feature),
+       fillOpacity: 0.5,
+       opacity: 0.8,
+       weight: 0.6
       
      });
    },
